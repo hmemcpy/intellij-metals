@@ -1,0 +1,45 @@
+<idea-plugin>
+    <id>com.hmemcpy.intellij-metals</id>
+    <name>Metals (Scala LSP) support for IntelliJ</name>
+    <vendor>Igal Tabachnik</vendor>
+    <version>replaced-by-build</version>
+
+    <description><![CDATA[]]></description>
+
+    <change-notes>replaced-by-build</change-notes>
+
+    <idea-version since-build="233" until-build="233.*"/>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.ultimate</depends>
+    <depends>org.intellij.scala</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <platform.lsp.serverSupportProvider implementation="intellij.metals.MetalsSupportProvider"/>
+
+<!--        <completion.contributor id="LspCompletionContributor"-->
+<!--                                language="any"-->
+<!--                                order="first"-->
+<!--                                implementationClass="com.intellij.platform.lsp.impl.completion.LspCompletionContributor"/>-->
+
+        <!-- Global settings -->
+        <applicationService serviceImplementation="intellij.metals.settings.MetalsSettings"/>
+        <!-- Per-project settings -->
+        <projectService serviceImplementation="intellij.metals.settings.MetalsProjectSettings"/>
+
+        <projectConfigurable groupId="language"
+                             id="metals.configurable"
+                             displayName="Metals"
+                             parentId="org.jetbrains.plugins.scala.settings.ScalaProjectSettingsConfigurable"
+                             instance="intellij.metals.settings.MetalsConfigurable"/>
+
+        <statusBarWidgetFactory implementation="intellij.metals.ui.MetalsStatusWidgetFactory"
+                                id="MetalsStatusWidgetFactory"
+                                order="first" />
+
+        <projectService serviceImplementation="intellij.metals.typing.MetalsTypeSignatureEvaluator"
+                        serviceInterface="org.jetbrains.plugins.scala.lang.macros.evaluator.ScalaMacroEvaluator"
+                        overrides="true"/>
+    </extensions>
+
+</idea-plugin>
